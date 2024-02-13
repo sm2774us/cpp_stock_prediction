@@ -1,0 +1,135 @@
+<html>
+
+<body>
+    <h1 id="heading"></h1>
+    <div id="CharContainer">
+        <div id="info"></div>
+    </div>
+    <div class="tooltip"></div>
+
+    <head>
+        <script src="https://d3js.org/d3.v4.js"></script>
+        <script src="d3Chart.js"></script>
+        <link rel="stylesheet" type="text/css" href="stock.css">
+        <div id="loader"></div>
+
+        <div id="SelectorContainer">
+            <div class="row">
+                <div class="column">
+                    <div id="StockSelect" class="StockSelect">Select Company: </div>
+                </div>
+                <div class="column">
+                    <button class="button" id="ResetButton"> Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="PredictorContainer">
+            <div class="row">
+                <div class="column">
+                    <button class="button" id="TrainedData"> Show Trained Data</button>
+                </div>
+                <div class="column">
+                    <button class="button" id="TestData"> Show Test Data</button>
+                </div>
+
+                <div class="column">
+                    <div class="StockSelect">
+                        Predict For Days:
+                        <select id="PredictDays">
+                            <option value="0">---</option>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </head>
+    <script>
+        // Populate Drown Down from Fully Trained Model
+        d3.csv('fullTrained.csv', function (d) {
+            return {
+                'symbol': d.Symbol,
+                'company': d.Company,
+                'loss': d.Loss
+            };
+        }, function (error, data) {
+
+            data = data.filter((thing, index, self) =>
+                index === self.findIndex((t) => (
+                    t.symbol === thing.symbol
+                ))
+            );
+            data.push({
+                'symbol': 'DontSelect',
+                'company': '---',
+                'loss': 0.0
+            });
+
+            data.sort((a, b) => (a.loss > b.loss) ? 1 : ((b.loss > a.loss) ? -1 : 0));
+
+            d3.select('#PredictDays')
+                .on('change', function () {
+                    var days = d3.select('#PredictDays').node().value;
+                    if (days !== '0') {
+                        d3.select("#loader").style('display', 'block');
+                        fetchData(days);
+                    }
+                });
+
+
+            d3.select("#StockSelect")
+                .append("select")
+                .on('change', function () {
+                    var o = this.options[this.selectedIndex];
+                    if (o.value === 'DontSelect') {
+                        d3.select("#PredictorContainer")
+                            .style('display', 'none');
+                        d3.select('#info')
+                            .style('display', 'none');
+                        return;
+                    }
+                    var underscorePos = o.value.indexOf('_');
+                    var symbol = o.value.substr(0, underscorePos);
+                    var loss = o.value.substr(underscorePos + 1);
+                    d3.select('h1')
+                        .text(o.text);
+                    setSelectedvalue(symbol);
+
+                    d3.select('#info')
+                        .text('Training Loss =' + d3.format('.2')(loss))
+                        .style('display', 'block');
+                    clearGraph();
+                    d3.select("#PredictorContainer").style('display', 'block');
+                })
+                .selectAll("option").data(data)
+                .enter().append("option")
+                .text(function (d) {
+                    return d.company;
+                })
+                .attr("value", function (d) {
+                    return d.symbol + '_' + d.loss;
+                });
+
+            // Initial Value
+            d3.select('select').property('value', 'DontSelect');
+            d3.select('#TrainedData')
+                .on('click', function () {
+                    d3.select("#loader").style('display', 'block');
+                    fetchData('trainData');
+                });
+
+            d3.select('#TestData')
+                .on('click', function () {
+                    d3.select("#loader").style('display', 'block');
+                    fetchData('testData');
+                });
+        });
+    </script>
+</body>
+
+</html>

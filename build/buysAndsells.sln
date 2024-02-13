@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "buysAndsells", "buysAndsells.vcxproj", "{F1486213-2116-35E9-9362-9373C47B2DB3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		MinSizeRel|x64 = MinSizeRel|x64
+		Release|x64 = Release|x64
+		RelWithDebInfo|x64 = RelWithDebInfo|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F1486213-2116-35E9-9362-9373C47B2DB3}.Debug|x64.ActiveCfg = Debug|x64
+		{F1486213-2116-35E9-9362-9373C47B2DB3}.Debug|x64.Build.0 = Debug|x64
+		{F1486213-2116-35E9-9362-9373C47B2DB3}.MinSizeRel|x64.ActiveCfg = MinSizeRel|x64
+		{F1486213-2116-35E9-9362-9373C47B2DB3}.MinSizeRel|x64.Build.0 = MinSizeRel|x64
+		{F1486213-2116-35E9-9362-9373C47B2DB3}.Release|x64.ActiveCfg = Release|x64
+		{F1486213-2116-35E9-9362-9373C47B2DB3}.Release|x64.Build.0 = Release|x64
+		{F1486213-2116-35E9-9362-9373C47B2DB3}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
+		{F1486213-2116-35E9-9362-9373C47B2DB3}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C814E54D-8E98-3E8B-80C1-79F9F4783501}
+	EndGlobalSection
+EndGlobal
